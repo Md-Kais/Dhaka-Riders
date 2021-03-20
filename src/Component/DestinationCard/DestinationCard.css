@@ -1,0 +1,23 @@
+.cardDesign{
+    height:50px;
+    width: '100%';
+    background-color: rgb(201, 174, 174);
+    margin-top: 5px;
+    border-radius: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 20px;
+    padding-left: 10px;
+    align-items: center;
+}
+@media only screen and (max-width:480px){
+    .cardDesign{
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+.imageShow{
+    background-color: rgb(201, 174, 174);
+    border-radius:30px;
+}
+
+}

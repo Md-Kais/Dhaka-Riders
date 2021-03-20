@@ -1,0 +1,12 @@
+.linkClass,.logoClass{
+    padding: 20px; 
+    color:black; 
+    font: size 1rem; 
+    font-weight:600;
+    text-decoration: none;
+}
+.logoClass{
+    font-size: 2rem;
+    font-weight:900;
+}
+

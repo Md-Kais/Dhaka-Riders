@@ -1,0 +1,17 @@
+.gapBetweenCard{
+    margin-right: 10px;
+    margin-top:5px;
+    margin-bottom:5px;
+    
+}
+.containerGap{
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.middle{
+    margin: 0 auto;
+}
+.cardTitle{
+    text-align: center;
+    height: 20px;
+}

@@ -1,23 +1,56 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Image from './images/Bg.png'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useHistory,
+  useLocation
+} from "react-router-dom";
+import Home from './Component/Home/Home.js'
+import Login from './Component/Login/Login';
+import PrivateRoute from './Component/PrivateRoute/PrivateRoute';
+import Destination from './Component/Destination/Destination';
+import { createContext, useState } from 'react';
+import NotFound from './Component/NotFound/NotFound';
+
+import DestinationProcess from './DestiantionProcess/DestinationProcess';
+import Header from './Component/Header/Header';
+export const UserContext = createContext();
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState({});
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App"> 
+      <UserContext.Provider value={[loggedInUser, setLoggedInUser]} >
+        <Router>
+          <Header></Header>
+          <Switch>
+            <Route path="/home">
+              <Home></Home>
+            </Route>
+            <Route path="/login">
+              <Login></Login>
+            </Route>
+            
+            <PrivateRoute exact path="/destination/:type/:start/:end">
+              <DestinationProcess></DestinationProcess>
+            </PrivateRoute>
+            <PrivateRoute exact path="/destination/:type/search">
+              <Destination></Destination>
+            </PrivateRoute>
+            <Route exact path="/">
+              <Home></Home>
+            </Route>
+            <Route path="*">
+              <NotFound></NotFound>
+            </Route>
+          </Switch>
+        </Router>
+      </UserContext.Provider>
     </div>
   );
 }
