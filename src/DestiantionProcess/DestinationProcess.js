@@ -4,6 +4,7 @@ import DestinationCard from '../Component/DestinationCard/DestinationCard';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import fakedata from './../../src/FakeData.json'
+import Map from '../Component/Map/Map';
 
 const DestinationProcess = () => {
     let { type, start, end } = useParams();
@@ -32,7 +33,7 @@ const DestinationProcess = () => {
                         }
                     </Col>
                     < Col sm={12} md={6}>
-                        xs=6 md=4
+                        <Map></Map>
                     </Col>
                 </Row>
             </Container>

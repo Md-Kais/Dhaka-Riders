@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import Map from '../Map/Map';
 
 
 
@@ -63,11 +64,7 @@ const Destination = (props) => {
 
                     </Col>
                     <Col sm={12} md={8}>
-                        <InfoWindow onClose={this.onInfoWindowClose}>
-                            <div>
-                                <h1>{this.state.selectedPlace.name}</h1>
-                            </div>
-                        </InfoWindow>
+                        <Map></Map>
                     </Col>
                 </Row>
             </Container>
