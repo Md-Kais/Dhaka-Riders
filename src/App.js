@@ -1,14 +1,11 @@
 
 import './App.css';
-import Image from './images/Bg.png'
+
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  Redirect,
-  useHistory,
-  useLocation
+  
 } from "react-router-dom";
 import Home from './Component/Home/Home.js'
 import Login from './Component/Login/Login';

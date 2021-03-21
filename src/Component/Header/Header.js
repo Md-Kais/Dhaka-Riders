@@ -4,8 +4,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
-import Blog from '../Blog/Blog';
-import Contact from '../Contact/Contact';
+
 import './Header.css'
 const Header = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
