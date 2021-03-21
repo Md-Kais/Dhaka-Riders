@@ -7,7 +7,7 @@ import firebaseConfig from './../../firebaseconfig';
 import { useContext } from 'react';
 import { UserContext } from '../../App';
 import { useHistory, useLocation } from 'react-router';
-import { Button } from 'react-bootstrap';
+import { Alert, Badge, Button, Spinner } from 'react-bootstrap';
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -22,8 +22,9 @@ const Login = () => {
         email: '',
         photoUrl: '',
     })
-    const history=useHistory();
-    const location=useLocation();
+    const history = useHistory();
+    const location = useLocation();
+    const [loading, setLoading] = useState(true);
     let { from } = location.state || { from: { pathname: "/" } };
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [passwordProvide, setPasswordProvide] = useState('');
@@ -32,17 +33,20 @@ const Login = () => {
     function handleSignIn() {
         firebase.auth().signInWithPopup(provider).then(res => {
             const credential = res.credential;
-            
+
             const user = res.user;
             const { email, photoURL, displayName } = user;
             const newUser = {
                 isSignedIn: true,
                 name: displayName,
                 email: email,
-                photoUrl: photoURL
+                error:'',
+                success:true,
+                
             }
             setUser(newUser);
             setLoggedInUser(newUser);
+            setLoading(true);
             history.replace(from);
         })
 
@@ -50,13 +54,13 @@ const Login = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 const email = error.email;
-               
                 const newUserInfo = { ...user };
                 newUserInfo.error = errorMessage;
                 newUserInfo.success = false;
                 newUserInfo.name = '';
                 setUser(newUserInfo);
                 setLoggedInUser(newUserInfo);
+                setLoading(true);
                 console.log(errorCode, errorMessage, email);
             })
     }
@@ -72,6 +76,7 @@ const Login = () => {
                 success: false
             }
             setUser(signOutUser);
+            
             setLoggedInUser(signOutUser)
 
         })
@@ -85,12 +90,20 @@ const Login = () => {
                 newUserInfo.name = '';
                 setUser(newUserInfo);
                 setLoggedInUser(newUserInfo);
+               
                 console.log(errorCode, errorMessage, email);
             });
 
     }
 
     function handleBlur(event) {
+        setLoading(true);
+        const newUserInfo = { ...user };
+        newUserInfo.error = '';
+        newUserInfo.success = false;
+        newUserInfo.name = '';
+        setUser(newUserInfo);
+        setLoggedInUser(newUserInfo);
         //console.log(event.target.name, event.target.value);
         let isFormValid = true;
         if (event.target.name === 'name') {
@@ -103,13 +116,13 @@ const Login = () => {
             const isValidEmail = (/^[^\s@]+@[^\s@]+$/).test(event.target.value);
             //console.log(isValidEmail);
             isFormValid = isValidEmail;
-            function check(){
+            function check() {
                 if (isFormValid === false) {
                     alert('Please Provide valid Email')
 
                 }
             }
-            
+
             setTimeout(check(), 1000);
         }
         else if (event.target.name === 'password') {
@@ -123,7 +136,7 @@ const Login = () => {
                     alert('Please provide more than 7 charecter and 1 number')
 
                 }
-                else{
+                else {
                     setPasswordProvide(event.target.value);
                 }
             }
@@ -133,7 +146,7 @@ const Login = () => {
             //     alert('Please provide more than 7 charecter and 1 number')
             // }
             // else {
-                
+
             // }
 
 
@@ -142,32 +155,27 @@ const Login = () => {
             const isValidPass = event.target.value.length > 4;
             const passHasNumber = /\d{1}/.test(event.target.value);
 
-           // console.log(isValidPass && passHasNumber);
+            // console.log(isValidPass && passHasNumber);
             isFormValid = isValidPass && passHasNumber;
 
             setPasswordConfirm(event.target.value);
-
         }
-
         if (isFormValid) {
             const newUserInfo = { ...user };
             newUserInfo[event.target.name] = event.target.value;
             setUser(newUserInfo);
-
         }
-    } 
+    }
     function handleSubmit(event) {
-
-        if(!user.name || !user.password){
+        setLoading(false);
+        if (!user.name || !user.password) {
             alert('Check your email and Password. It\'s invalid')
         }
-
         if (newUser && user.name && user.email && user.password) {
             if (passwordConfirm === passwordProvide) {
-                
+
                 firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                     .then((userCredential) => {
-
                         const newUserInfo = { ...user };
                         newUserInfo.error = '';
                         newUserInfo.name = user.name;
@@ -175,6 +183,7 @@ const Login = () => {
                         newUserInfo.success = true;
                         setUser(newUserInfo);
                         setLoggedInUser(newUserInfo);
+                        setLoading(true);
                         history.replace(from);
                     }).catch((error) => {
                         var errorCode = error.code;
@@ -184,11 +193,12 @@ const Login = () => {
                         newUserInfo.success = false;
                         newUserInfo.name = '';
                         setUser(newUserInfo);
+                        setLoading(true);
                         setLoggedInUser(newUserInfo);
 
                         //console.log(errorCode, errorMessage);
                     });
-                
+
             }
             else {
                 const newUserInfo = { ...user };
@@ -211,15 +221,16 @@ const Login = () => {
                     const newUserInfo = { ...user };
                     newUserInfo.isSignedIn = true;
                     newUserInfo.error = '';
-                    newUserInfo.name=user.displayName;
-                    if(newUserInfo.name===null){
-                        newUserInfo.name="No Name";
+                    newUserInfo.name = user.displayName;
+                    if (newUserInfo.name === null) {
+                        newUserInfo.name = "No Name";
                     }
                     newUserInfo.success = true;
                     setUser(newUserInfo);
                     setLoggedInUser(newUserInfo);
+                    setLoading(true);
                     history.replace(from);
-                    
+
                 })
                 .catch((error) => {
                     var errorCode = error.code;
@@ -227,9 +238,10 @@ const Login = () => {
                     const newUserInfo = { ...user };
                     newUserInfo.error = errorMessage;
                     newUserInfo.success = false;
-                    newUserInfo.name='';
+                    newUserInfo.name = '';
                     setUser(newUserInfo);
                     setLoggedInUser(newUserInfo);
+                    setLoading(true)
                     console.log(errorCode, errorMessage);
                 });
         }
@@ -240,49 +252,51 @@ const Login = () => {
 
 
 
-return (
-    <div className='pageDisplay'>
-        <h3>User : {loggedInUser.name}</h3>
-        {
-            loggedInUser.isSignedIn && <p>You are logged in</p>
-        }
-        {
-            loggedInUser.isSignedIn && <Button variant="danger" onClick={() => setLoggedInUser({})}>Sign Out</Button>
-        }
-
-        {newUser ? <strong>Create New Account</strong> : <p><strong>Login</strong></p>}
-        <br />
-        {newUser && <input type="text" name="name" placeholder="Name" onBlur={handleBlur} required></input>}
-
-        <form required>
-
-            <input type="text" name="email" placeholder="Email" onBlur={handleBlur} required></input>
-            <br />
-            <input type="password" name="password" placeholder="PassWord" onBlur={handleBlur} required></input>
-            <br />
+    return (
+        <div className='pageDisplay'>
+            <h3>User : {loggedInUser.name}</h3>
             {
-                newUser && <input type="password" name="checkPassword" placeholder="Confirm Password" onBlur={handleBlur} required></input>
+                loggedInUser.isSignedIn && <p>You are logged in</p>
             }
-            <br />
-            <input type="submit" onClick={handleSubmit}></input>
             {
-                loggedInUser.success ? <p style={{ color: 'green' }}>{newUser ? 'User Created' :'Logged in' } Succesfully</p> : <p style={{ color: 'red' }}>{loggedInUser.error}</p>
+               loggedInUser.isSignedIn && <Button variant="danger" onClick={() => setLoggedInUser({})}>Sign Out</Button>
             }
-        </form>
-        {
-            newUser
-                ?
-                <label htmlFor='newUser'>Already have account?<input type="button" onClick={() => setNewUser(!newUser)} name="newUser" value="Login" ></input> </label>
-                :
-                <label htmlFor='newUser'>Don't have account?<input type="button" onClick={() => setNewUser(!newUser)} name="newUser" value="Create one" ></input></label>
-        }
-        <hr />
-        <p style={{ textAlign: 'center', color: 'red', fontSize: '24px', fontWeight: '600px' }}>Or</p>
-        {
-            loggedInUser.isSignedIn ? <button onClick={handleSignOut}>{loggedInUser.name}</button> : <button onClick={handleSignIn}> <img src={googleLogoUrl} alt="google Logo" width='40px' /> Continue with Google</button>
-        }
-    </div>
-);
+           
+            {newUser ? <strong>Create New Account</strong> : <p><strong>Login</strong></p>}
+            <br />
+            {newUser && <input type="text" name="name" placeholder="Name" onBlur={handleBlur} required></input>}
+
+            <form required>
+
+                <input type="text" name="email" placeholder="Email" onBlur={handleBlur} required></input>
+                <br />
+                <input type="password" name="password" placeholder="PassWord" onBlur={handleBlur} required></input>
+                <br />
+                {
+                    newUser && <input type="password" name="checkPassword" placeholder="Confirm Password" onBlur={handleBlur} required></input>
+                }
+                <br />
+                <input type="submit" onClick={handleSubmit}></input>
+                <br/>
+                {
+                    !loading ? <Spinner animation="border" variant="info"></Spinner> : loggedInUser.success ? <Badge variant="success" className="text-wrap">{newUser ? 'User Created' : 'Logged in'} Succesfully</Badge> : <Badge variant="danger" className="text-wrap">{loggedInUser.error}</Badge>
+                }
+            </form>
+            {
+                newUser
+                    ?
+                    <label htmlFor='newUser'>Already have account?<input type="button" onClick={() => setNewUser(!newUser)} name="newUser" value="Login" ></input> </label>
+                    :
+                    <label htmlFor='newUser'>Don't have account?<input type="button" onClick={() => setNewUser(!newUser)} name="newUser" value="Create one" ></input></label>
+            }
+            <hr />
+            <p style={{ textAlign: 'center', color: 'red', fontSize: '24px', fontWeight: '600px' }}>Or</p>
+            {
+                loggedInUser.isSignedIn ? <button onClick={handleSignOut}>{loggedInUser.name}</button> : <button onClick={handleSignIn}> <img src={googleLogoUrl} alt="google Logo" width='40px' /> Continue with Google</button>
+            }
+        
+        </div>
+    );
 };
 
 export default Login;

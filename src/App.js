@@ -19,6 +19,8 @@ import NotFound from './Component/NotFound/NotFound';
 
 import DestinationProcess from './DestiantionProcess/DestinationProcess';
 import Header from './Component/Header/Header';
+import Blog from './Component/Blog/Blog';
+import Contact from './Component/Contact/Contact';
 export const UserContext = createContext();
 
 function App() {
@@ -35,7 +37,12 @@ function App() {
             <Route path="/login">
               <Login></Login>
             </Route>
-            
+            <Route exact path="/blog">
+              <Blog></Blog>
+            </Route>
+            <Route exact path="/contacts">
+              <Contact></Contact>
+            </Route>
             <PrivateRoute exact path="/destination/:type/:start/:end">
               <DestinationProcess></DestinationProcess>
             </PrivateRoute>

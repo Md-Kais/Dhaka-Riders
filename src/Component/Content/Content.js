@@ -7,16 +7,14 @@ import bike from '../../images/Frame.png'
 import train from '../../images/Group.png'
 import './Content.css'
 const Content = () => {
-  
     const carType='car';
     return (
         <div>
-
             <Container className='middle'>
                 <Row className="containerGap">
                     <Col xs md lg='3'>
                         <Link to="/destination/bike/search">
-                        <Card className='gapBetweenCard' style={{ width: '14rem' }}>
+                        <Card className='gapBetweenCard' style={{ maxWidth: '14rem', minWidth:'14rem' }}>
                             <Card.Img variant="top" src={bike} />
                             <Card.Body>
                                 <Card.Title className='cardTitle' style={{ textAlign: 'center' }}>Bike</Card.Title>
@@ -24,11 +22,10 @@ const Content = () => {
                         </Card>
                         </Link>
                     </Col>
-
                     <Col xs md lg='3'>
                         
                         <Link to="/destination/car/search">
-                        <Card className='gapBetweenCard' style={{ width: '14rem' }}>
+                            <Card className='gapBetweenCard' style={{ maxWidth: '14rem', minWidth: '14rem' }}>
                             <Card.Img variant="top" src={car} />
                             <Card.Body>
                                 <Card.Title className='cardTitle'>Car</Card.Title>
@@ -36,11 +33,9 @@ const Content = () => {
                         </Card>
                     </Link>
                     </Col>
-
-
                     <Col xs md lg='3'>
                         <Link to="/destination/bus/search">
-                        <Card className='gapBetweenCard' style={{ width: '14rem' }}>
+                            <Card className='gapBetweenCard' style={{ maxWidth: '14rem', minWidth: '14rem' }}>
                             <Card.Img variant="top" src={bus} />
                             <Card.Body>
                                 <Card.Title className='cardTitle'>Bus</Card.Title>
@@ -48,9 +43,9 @@ const Content = () => {
                         </Card>
                         </Link>
                     </Col>
-                     <Col md lg='3'>
+                    <Col md lg='3'>
                         <Link to="/destination/train/search">
-                        <Card className='gapBetweenCard' style={{ width: '14rem' }}>
+                            <Card className='gapBetweenCard' style={{ maxWidth: '14rem', minWidth: '14rem' }}>
                             <Card.Img variant="top" src={train} />
                             <Card.Body>
                                 <Card.Title className='cardTitle'>Train</Card.Title>

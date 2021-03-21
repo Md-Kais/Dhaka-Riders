@@ -2,8 +2,9 @@
   background-image: url('./images/Bg.png');
   position: relative;
   width:100vw;
-  
+  background-repeat: no-repeat;
   height: 100vh;
-  background-size: contain;
+  background-size: cover;
   overflow: scroll;
+  
 }

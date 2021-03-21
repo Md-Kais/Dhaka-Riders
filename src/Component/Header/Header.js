@@ -4,6 +4,8 @@ import { Nav, Navbar } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
+import Blog from '../Blog/Blog';
+import Contact from '../Contact/Contact';
 import './Header.css'
 const Header = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -20,6 +22,12 @@ const Header = () => {
                     <Nav className="ml-auto">
                         <Link to="/home" className='linkClass'>Home</Link>
                         <Link to="/destination/bus/search" className='linkClass' >Destination</Link>
+                        <Link to="/blog" className='linkClass'>
+                            Blog
+                        </Link>
+                        <Link to="/contacts" className='linkClass'>
+                            Contacts
+                        </Link>
                         <Link to="/login" className='linkClass'>
                             {
                                 loggedInUser.isSignedIn ? loggedInUser.name  : <p>Login</p>
