@@ -1,5 +1,10 @@
 Live Link: https://auth-test-b6ee2.web.app/
-
+• A website for checking where how many transports available for going one place to another.
+• Users can sign up and log in to this website using google. Anyone cannot go to some pages
+without login, which is developed by React Router.
+• User can check available transport and their price by using Google Maps.
+• Front-end Technology : Material Ui, React.js , HTML5 , CSS3.
+• Back-end Technology: NODE.js, Express.js, MongoDB
 This Project name is Dhaka Riders. It's an Transport communication or Ride-Sharing website. Here, You can Find:
   1. 4 different type of vehicles for traveling . Like as , "Car, Bike, Train, Bus".
   2. Different type of seats for passenger capability and comfortableness.
